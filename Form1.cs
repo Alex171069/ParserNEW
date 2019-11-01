@@ -58,6 +58,7 @@ namespace Parser
                     {
                         StreamReader readINfile = new StreamReader(fileStream);
 
+
                         fContentF = readINfile.ReadToEnd();
                        // richTextBox1.AppendText(fContent);
                     }
@@ -76,6 +77,7 @@ namespace Parser
                         // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
                         var patre = @"@\d";
                         var StrHtmlOut = objP.InsertDataPattern(objP.resArr, strLineOut, patre) ; // выдача выходной строки Html отчета.
+
                         webBrowser1.Navigate(StrHtmlOut);
                     }
 
