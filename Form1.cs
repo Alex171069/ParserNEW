@@ -48,6 +48,7 @@ namespace Parser
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Reset();
             openFileDialog1.Filter = "(*.*) | *.*" ;
            if (openFileDialog1.ShowDialog()==DialogResult.OK)
             {
@@ -98,7 +99,7 @@ namespace Parser
         {
 
             openFileDialog1.Reset();
-            openFileDialog1.Filter = "(html) |*.html|(*.*)|*.*";
+            openFileDialog1.Filter = "(html) |*.html";
              if (openFileDialog1.ShowDialog()==DialogResult.OK)
             {
                 fOut = openFileDialog1.FileName; // сохраняем имя выходного файла-шаблона 
