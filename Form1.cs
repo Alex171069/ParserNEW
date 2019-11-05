@@ -22,24 +22,24 @@ namespace Parser
         public string strLineOut
         {
             get { return strLine; }
-            set { value = strLine;}
+            set { strLine = value;}
         }
         public string fIn
         {
             get { return filePin; }
-            set { value = filePin; }
+            set {filePin = value; }
         }
         public string fOut  // Имя выходного файла
         {
             get { return filePout; }
-            set { value = filePout; }
+            set {filePout = value; }
         }
         private string fContent;
         //Parstxt pars;
         public string fContentF
         {
             get { return fContent; }
-            set { value = fContent; }
+            set {fContent = value; }
         }
         public Form1()
         {
@@ -58,10 +58,8 @@ namespace Parser
                     using (Stream fileStream = openFileDialog1.OpenFile())
                     {
                         StreamReader readINfile = new StreamReader(fileStream);
-
-
-                        fContentF = readINfile.ReadToEnd();
-                       // richTextBox1.AppendText(fContent);
+                        fContentF = readINfile.ReadToEnd(); // загружаем основной файл для парсинга в поток fContentF
+                                                            
                     }
                 }
                 catch(Exception k){ MessageBox.Show(k.Message);}
@@ -71,6 +69,7 @@ namespace Parser
                   objP.ParstxtSearch(fContentF, pat);
                 if (fOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
                 {
+                    
                     using (Stream fileOut = openFileDialog1.OpenFile())
                     {
                         StreamReader sReaderOut = new StreamReader(fileOut);
@@ -97,14 +96,21 @@ namespace Parser
          // получаем шаблон HTML
         private void шаблонHTMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             openFileDialog1.Reset();
             openFileDialog1.Filter = "(html) |*.html|(*.*)|*.*";
              if (openFileDialog1.ShowDialog()==DialogResult.OK)
             {
                 fOut = openFileDialog1.FileName; // сохраняем имя выходного файла-шаблона 
-                
-
-                //var fileHTMLStream = openFileDialog1.OpenFile();
+                if (fOut.Length > 0)
+                {
+                    MessageBox.Show("Шаблон выходного файла загружен");
+                }
+                else
+                { 
+                    MessageBox.Show("Шаблон выходного файла не загружен");
+                }
+                    //var fileHTMLStream = openFileDialog1.OpenFile();
                 //using(StreamReader readHTML = new StreamReader(fileHTMLStream))
                 //{
                 //  var htmlContent = readHTML.ReadToEnd(); // Прочитать HTML шаблон.

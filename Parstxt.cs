@@ -42,7 +42,7 @@ namespace Parser
                 }
             }
           }
-            catch(Exception a)
+       catch(Exception a)
             {
                 MessageBox.Show(a.Message);  
             }
