@@ -18,7 +18,7 @@ namespace Parser
     {
       private string filePin;
       private string filePout;
-        private string strLine;
+      private string strLine;
         public string strLineOut
         {
             get { return strLine; }
@@ -48,7 +48,8 @@ namespace Parser
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-           if(openFileDialog1.ShowDialog()==DialogResult.OK)
+            openFileDialog1.Filter = "(*.*) | *.*" ;
+           if (openFileDialog1.ShowDialog()==DialogResult.OK)
             {
                 // openFileDialog1.Reset();
                 fIn = openFileDialog1.FileName;
