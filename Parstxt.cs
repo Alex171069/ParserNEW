@@ -19,7 +19,7 @@ namespace Parser
        string[] ArrOutStr;  
        string[] ArrInStr;
        public MRes resArr;
-        ArrayList ArrListRes;
+       public ArrayList ArrListRes;
         public Parstxt()
         {
              resArr = new MRes();
@@ -29,7 +29,7 @@ namespace Parser
         {
       try { 
             ArrInStr = FileF.Split('\n'); // \t \n
-            int CountIn = 1;
+            int CountIn = 0;
             foreach (string strFile in ArrInStr) // перебираем по строкам входной поток
             {
                 Match matchR = Regex.Match(EncodToUTF(strFile), pattern); // разбираем строку на предмет совпадений с паттерном и за одно конвертируем в UTF-8
@@ -55,22 +55,33 @@ namespace Parser
         /// </summary>
         /// <param name="ArrData">дата массив</param>
         /// <param name="InStr">строка в которой осуществляется замена</param>
-        public string InsertDataPattern(MRes ArrData, string InStr, string patternO)
+        public string InsertDataPattern(ArrayList ArrListRes, string InStr, string patternO)
         {
-            string FinalStrOut = null;
+            string FinalStrOut = null, StrTemp = null;
             ArrOutStr = InStr.Split('\n');
             foreach (string StrO in ArrOutStr)
             {
                 Match matchO = Regex.Match(StrO, patternO);
                 if (matchO.Success) // если паттерн в строке найден то сверяем его с номером индекса ArrData 
                 {
-                    for (int i = 0; i < ArrData.MResIndex; i++)
+                    foreach(MRes ArrayL in ArrListRes) 
                     {
-                        if (Convert.ToInt32(matchO.Value.Substring(1)) == i)  // берем 1 символ 
-                            StrO.Replace(matchO.Value, ArrData.MResValue);
+                      if (Convert.ToInt32(matchO.Value.Substring(1)) == ArrayL.MResIndex)  // берем 1 символ 
+                        {
+                            StrTemp = StrO.Replace(matchO.Value, ArrayL.MResValue);
+                        } 
                     }
+                     
                 }
-                FinalStrOut += StrO;
+
+                if (StrTemp != null)
+                {
+                    FinalStrOut += StrTemp;
+                    StrTemp = null;
+                }
+                else
+                    FinalStrOut += StrO;
+                
             }
             return FinalStrOut;
         }

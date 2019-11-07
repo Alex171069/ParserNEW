@@ -68,19 +68,13 @@ namespace Parser
                 var pat = @"\b\d\.\d*|w{2}\b";  // \b\d\d\.\d*\b   паттрерн для числового значения разультата проверки.
                 var objP = new Parstxt();
                   objP.ParstxtSearch(fContentF, pat);
-                if (fOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
+                if (strLineOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
                 {
-                    
-                    using (Stream fileOut = openFileDialog1.OpenFile())
-                    {
-                        StreamReader sReaderOut = new StreamReader(fileOut);
-                        strLineOut = sReaderOut.ReadToEnd();
-                        // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
+                     // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
                         var patre = @"@\d";
-                        var StrHtmlOut = objP.InsertDataPattern(objP.resArr, strLineOut, patre) ; // выдача выходной строки Html отчета.
-
+                        var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes , strLineOut, patre) ; // выдача выходной строки Html отчета.
                         webBrowser1.Navigate(StrHtmlOut);
-                    }
+                    
 
                 }
                 else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
@@ -103,23 +97,19 @@ namespace Parser
              if (openFileDialog1.ShowDialog()==DialogResult.OK)
             {
                 fOut = openFileDialog1.FileName; // сохраняем имя выходного файла-шаблона 
-                if (fOut.Length > 0)
+                Stream SreamReadOut = openFileDialog1.OpenFile(); //читаем поток шаблона
+                StreamReader StReadOut = new StreamReader(SreamReadOut);
+                strLineOut = StReadOut.ReadToEnd();
+                if (strLineOut.Length > 0)
                 {
                     MessageBox.Show("Шаблон выходного файла загружен");
+                   
                 }
                 else
                 { 
                     MessageBox.Show("Шаблон выходного файла не загружен");
                 }
-                    //var fileHTMLStream = openFileDialog1.OpenFile();
-                //using(StreamReader readHTML = new StreamReader(fileHTMLStream))
-                //{
-                //  var htmlContent = readHTML.ReadToEnd(); // Прочитать HTML шаблон.
-                //    webBrowser1.Navigate(fileHTML);
-                //}
-
-
-            }
+            } 
                
         }
 
