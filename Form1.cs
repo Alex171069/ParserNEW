@@ -73,7 +73,19 @@ namespace Parser
                      // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
                         var patre = @"@\d";
                         var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes , strLineOut, patre) ; // выдача выходной строки Html отчета.
-                        webBrowser1.Navigate(StrHtmlOut);
+                    string FileName = "FileReport" + DateTime.Today.ToShortTimeString() + ".html";
+                    FileName = FileName.Replace(':', '_');
+                    
+                    using (StreamWriter Sw = new StreamWriter(FileName))
+                    {
+                        Sw.WriteLine(StrHtmlOut);
+                    }
+                    if (File.Exists(FileName))
+                    {
+                        string PatchF = new FileInfo(FileName).FullName;
+                        webBrowser1.Navigate(PatchF+FileName);
+                    }
+                    else MessageBox.Show("Выходного файла не существует!");
                     
 
                 }
@@ -116,6 +128,11 @@ namespace Parser
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.ExitThread();
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Выполняется !");
         }
     }
 }

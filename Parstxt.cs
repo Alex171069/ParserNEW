@@ -66,7 +66,8 @@ namespace Parser
                 {
                     foreach(MRes ArrayL in ArrListRes) 
                     {
-                      if (Convert.ToInt32(matchO.Value.Substring(1)) == ArrayL.MResIndex)  // берем 1 символ 
+                        var Sub1 = matchO.Value.Substring(1, matchO.Length-1);
+                      if (Convert.ToInt32(Sub1) == ArrayL.MResIndex)  // берем 1 символ 
                         {
                             StrTemp = StrO.Replace(matchO.Value, ArrayL.MResValue);
                         } 
