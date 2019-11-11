@@ -73,7 +73,7 @@ namespace Parser
                      // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
                         var patre = @"@\d";
                         var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes , strLineOut, patre) ; // выдача выходной строки Html отчета.
-                    string FileName = "FileReport" + DateTime.Today.ToShortTimeString() + ".html";
+                    string FileName = "FileReport" + DateTime.Today.ToString() + ".html";
                     FileName = FileName.Replace(':', '_');
                     
                     using (StreamWriter Sw = new StreamWriter(FileName))
@@ -83,11 +83,11 @@ namespace Parser
                     if (File.Exists(FileName))
                     {
                         string PatchF = new FileInfo(FileName).FullName;
-                        webBrowser1.Navigate(PatchF+FileName);
+                       
+
+                        webBrowser1.Navigate(@PatchF);
                     }
                     else MessageBox.Show("Выходного файла не существует!");
-                    
-
                 }
                 else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
                    // richTextBox1.Lines = objP.GetMResLine() ; // заполняем richTextBox1 результатами   
