@@ -60,36 +60,12 @@ namespace Parser
                     {
                         StreamReader readINfile = new StreamReader(fileStream);
                         fContentF = readINfile.ReadToEnd(); // загружаем основной файл для парсинга в поток fContentF
-                                                            
+                        MessageBox.Show("Файл загружен");                              
                     }
                 }
                 catch(Exception k){ MessageBox.Show(k.Message);}
 
-                var pat = @"\b\d\.\d*|w{2}\b";  // \b\d\d\.\d*\b   паттрерн для числового значения разультата проверки.
-                var objP = new Parstxt();
-                  objP.ParstxtSearch(fContentF, pat);
-                if (strLineOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
-                {
-                     // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
-                        var patre = @"@\b\d*";
-                        var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes , strLineOut, patre) ; // выдача выходной строки Html отчета.
-                    string FileName = "FileReport" + DateTime.Today.ToString() + ".html";
-                    FileName = FileName.Replace(':', '_');
-                    
-                    using (StreamWriter Sw = new StreamWriter(FileName))
-                    {
-                        Sw.WriteLine(StrHtmlOut);
-                    }
-                    if (File.Exists(FileName))
-                    {
-                        string PatchF = new FileInfo(FileName).FullName;
-                       
-
-                        webBrowser1.Navigate(@PatchF);
-                    }
-                    else MessageBox.Show("Выходного файла не существует!");
-                }
-                else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
+                
                    // richTextBox1.Lines = objP.GetMResLine() ; // заполняем richTextBox1 результатами   
            
            }
@@ -129,10 +105,46 @@ namespace Parser
         {
             Application.ExitThread();
         }
-
+         // выполнение преобразования в html
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Выполняется !");
+           // MessageBox.Show("Выполняется !");
+            var pat = @"\b\d\.\d*|w{2}\b";  // \b\d\d\.\d*\b   паттрерн для числового значения разультата проверки.
+            var objP = new Parstxt();
+            objP.ParstxtSearch(fContentF, pat);
+            if (strLineOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
+            {
+                // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
+                var patre = @"@\b\d*";
+                var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes, strLineOut, patre); // выдача выходной строки Html отчета.
+                string DayT = DateTime.Now.ToShortDateString();
+                DayT = DayT.Replace('.', '_');
+                string TimeT = DateTime.Now.ToShortTimeString() ;
+                string FileName = "FileReport_" + DayT +"_"+ TimeT + ".html";
+                FileName = FileName.Replace(':', '_');
+
+                using (StreamWriter Sw = new StreamWriter(FileName))
+                {
+                    Sw.WriteLine(StrHtmlOut);
+                }
+                if (File.Exists(FileName))
+                {
+                    string PatchF = new FileInfo(FileName).FullName;
+
+
+                    webBrowser1.Navigate(@PatchF);
+                }
+                else MessageBox.Show("Выходного файла не существует!");
+            }
+            else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
+
+
+        }
+
+        private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            webBrowser1.ShowSaveAsDialog();
         }
     }
 }
