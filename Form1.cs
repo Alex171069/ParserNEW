@@ -125,25 +125,20 @@ namespace Parser
 
                 using (StreamWriter Sw = new StreamWriter(FileName))
                 {
-                    Sw.WriteLine(StrHtmlOut);
+                    Sw.WriteLine(StrHtmlOut); // пишим строку целиком
                 }
                 if (File.Exists(FileName))
                 {
                     string PatchF = new FileInfo(FileName).FullName;
-
-
                     webBrowser1.Navigate(@PatchF);
                 }
                 else MessageBox.Show("Выходного файла не существует!");
             }
             else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
 
-
         }
-
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             webBrowser1.ShowSaveAsDialog();
         }
     }
