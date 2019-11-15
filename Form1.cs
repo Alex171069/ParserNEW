@@ -115,7 +115,7 @@ namespace Parser
             if (strLineOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
             {
                 // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
-                var patre = @"@\b\d*";  // необходимо отработать ошибку 0.7 
+                var patre = @"@\b\d\.\d{6}";  // необходимо отработать ошибку 0.7 
                 var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes, strLineOut, patre); // выдача выходной строки Html отчета.
                 string DayT = DateTime.Now.ToShortDateString();
                 DayT = DayT.Replace('.', '_');
