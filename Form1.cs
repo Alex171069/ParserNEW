@@ -109,13 +109,13 @@ namespace Parser
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
            // MessageBox.Show("Выполняется !");
-            var pat = @"\b\d\.\d*|w{2}\b";  // \b\d\d\.\d*\b   паттрерн для числового значения разультата проверки.
+            var pat = @"\b\d\.\d{3,6}";  // \b\d\d\.\d*\b   паттрерн для числового значения разультата проверки.
             var objP = new Parstxt();
             objP.ParstxtSearch(fContentF, pat);
             if (strLineOut.Length > 0 & File.Exists(fOut)) // если выходной файл выбран и он существует то парсим его на предмет наличия маркера шаблона
             {
                 // парсим выходной файл шаблона, ищим маркер после чего заменяем маркер на данные
-                var patre = @"@\b\d\.\d{6}";  // необходимо отработать ошибку 0.7 
+                var patre = @"@\d*";  // необходимо отработать ошибку 0.7 
                 var StrHtmlOut = objP.InsertDataPattern(objP.ArrListRes, strLineOut, patre); // выдача выходной строки Html отчета.
                 string DayT = DateTime.Now.ToShortDateString();
                 DayT = DayT.Replace('.', '_');
