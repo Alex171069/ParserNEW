@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SelectPdf;
 
 
 
@@ -16,6 +17,7 @@ namespace Parser
 {
     public partial class Form1 : Form
     {
+      string FileName, PatchF, FileNamePdf;
       private string filePin;
       private string filePout;
       private string strLine;
@@ -60,7 +62,9 @@ namespace Parser
                     {
                         StreamReader readINfile = new StreamReader(fileStream);
                         fContentF = readINfile.ReadToEnd(); // загружаем основной файл для парсинга в поток fContentF
-                        MessageBox.Show("Файл загружен");                              
+                        //richTextBox1.AppendText(fContentF);  
+                        MessageBox.Show("Файл загружен");   
+                        
                     }
                 }
                 catch(Exception k){ MessageBox.Show(k.Message);}
@@ -120,7 +124,7 @@ namespace Parser
                 string DayT = DateTime.Now.ToShortDateString();
                 DayT = DayT.Replace('.', '_');
                 string TimeT = DateTime.Now.ToShortTimeString() ;
-                string FileName = "FileReport_" + DayT +"_"+ TimeT + ".html";
+                FileName = "FileReport_" + DayT +"_"+ TimeT + ".html";
                 FileName = FileName.Replace(':', '_');
 
                 using (StreamWriter Sw = new StreamWriter(FileName))
@@ -129,7 +133,7 @@ namespace Parser
                 }
                 if (File.Exists(FileName))
                 {
-                    string PatchF = new FileInfo(FileName).FullName;
+                     PatchF = new FileInfo(FileName).FullName;
                     webBrowser1.Navigate(@PatchF);
                 }
                 else MessageBox.Show("Выходного файла не существует!");
@@ -137,9 +141,26 @@ namespace Parser
             else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
 
         }
+        /// <summary>
+        /// // конвертирование Html в pdf 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            webBrowser1.ShowSaveAsDialog();
+           // progressBar1.Select();
+            progressBar1.Visible = true;
+           HtmlToPdf conv = new HtmlToPdf();
+            PdfDocument doc = conv.ConvertUrl(PatchF);
+             PdfViewerPreferences PdfVif = doc.ViewerPreferences;
+            PdfVif.PageMode = PdfViewerPageMode.UseThumbs;
+            progressBar1.Value = 50;
+       FileNamePdf = PatchF + ".pdf";
+
+            doc.Save(FileNamePdf);
+            doc.Close();
+            progressBar1.Value = 100;
+            progressBar1.Visible = false;
         }
     }
 }
