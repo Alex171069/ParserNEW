@@ -109,7 +109,13 @@ namespace Parser
         {
             Application.ExitThread();
         }
-         // выполнение преобразования в html
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show("В главном меню выберете шаблон HTML отчета и только затем загрузите исходный файл отчета.");
+        }
+
+        // выполнение преобразования в html
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
            // MessageBox.Show("Выполняется !");
@@ -141,6 +147,8 @@ namespace Parser
             else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
 
         }
+       
+            
         /// <summary>
         /// // конвертирование Html в pdf 
         /// </summary>
@@ -148,17 +156,23 @@ namespace Parser
         /// <param name="e"></param>
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // progressBar1.Select();
+             progressBar1.Select();
+            
             progressBar1.Visible = true;
-           HtmlToPdf conv = new HtmlToPdf();
+            HtmlToPdf conv = new HtmlToPdf();
+            // MessageBox.Show("Конвертирую в .PDF файл", "Конвертация в .PDF файл",MessageBoxButtons.OK,MessageBoxIcon.Information) ; 
             PdfDocument doc = conv.ConvertUrl(PatchF);
-             PdfViewerPreferences PdfVif = doc.ViewerPreferences;
+           
+          PdfViewerPreferences PdfVif = doc.ViewerPreferences;
+            progressBar1.Value = 30;
             PdfVif.PageMode = PdfViewerPageMode.UseThumbs;
             progressBar1.Value = 50;
-       FileNamePdf = PatchF + ".pdf";
-
+            FileNamePdf = PatchF + ".pdf";
             doc.Save(FileNamePdf);
             doc.Close();
+
+            
+           // MessageBox.Show("Выполнено!", "Конвертация в .PDF файл", MessageBoxButtons.OK, MessageBoxIcon.Information);
             progressBar1.Value = 100;
             progressBar1.Visible = false;
         }
