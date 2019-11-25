@@ -64,14 +64,12 @@ namespace Parser
                         fContentF = readINfile.ReadToEnd(); // загружаем основной файл для парсинга в поток fContentF
                         //richTextBox1.AppendText(fContentF);  
                         MessageBox.Show("Файл загружен");   
-                        
-                    }
+                   }
                 }
                 catch(Exception k){ MessageBox.Show(k.Message);}
                      
                 
                    // richTextBox1.Lines = objP.GetMResLine() ; // заполняем richTextBox1 результатами   
-           
            }
         }
 
@@ -95,7 +93,6 @@ namespace Parser
                 if (strLineOut.Length > 0)
                 {
                     MessageBox.Show("Шаблон выходного файла загружен");
-                   
                 }
                 else
                 { 
@@ -112,7 +109,9 @@ namespace Parser
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("В главном меню выберете шаблон HTML отчета и только затем загрузите исходный файл отчета.");
+            // MessageBox.Show("В главном меню выберете шаблон HTML отчета и только затем загрузите исходный файл отчета.");
+             var rulPath = new FileInfo("init.html").FullName;
+           webBrowser1.Navigate(@rulPath);
         }
 
         // выполнение преобразования в html
@@ -139,7 +138,7 @@ namespace Parser
                 }
                 if (File.Exists(FileName))
                 {
-                     PatchF = new FileInfo(FileName).FullName;
+                    PatchF = new FileInfo(FileName).FullName;
                     webBrowser1.Navigate(@PatchF);
                 }
                 else MessageBox.Show("Выходного файла не существует!");
@@ -147,8 +146,7 @@ namespace Parser
             else { MessageBox.Show("Выходной файл не выбран, либо он не существует"); }
 
         }
-       
-            
+                
         /// <summary>
         /// // конвертирование Html в pdf 
         /// </summary>
@@ -156,25 +154,29 @@ namespace Parser
         /// <param name="e"></param>
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-             progressBar1.Select();
+           // progressBar1.Select();
             
-            progressBar1.Visible = true;
+           // progressBar1.Visible = true;
             HtmlToPdf conv = new HtmlToPdf();
+            conv.Options.PdfPageOrientation = PdfPageOrientation.Landscape;
+            conv.Options.MarginLeft = 40;
+            conv.Options.MarginTop = 40;
             // MessageBox.Show("Конвертирую в .PDF файл", "Конвертация в .PDF файл",MessageBoxButtons.OK,MessageBoxIcon.Information) ; 
+              
             PdfDocument doc = conv.ConvertUrl(PatchF);
            
           PdfViewerPreferences PdfVif = doc.ViewerPreferences;
-            progressBar1.Value = 30;
+           // progressBar1.Value = 30;
             PdfVif.PageMode = PdfViewerPageMode.UseThumbs;
-            progressBar1.Value = 50;
+          //  progressBar1.Value = 50;
             FileNamePdf = PatchF + ".pdf";
             doc.Save(FileNamePdf);
             doc.Close();
 
             
-           // MessageBox.Show("Выполнено!", "Конвертация в .PDF файл", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            progressBar1.Value = 100;
-            progressBar1.Visible = false;
+            MessageBox.Show("Выполнено!", "Конвертация в .PDF файл", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           // progressBar1.Value = 100;
+           // progressBar1.Visible = false;
         }
     }
 }

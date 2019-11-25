@@ -111,6 +111,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\general.css" />
+    <Content Include="bin\Debug\init.html" />
     <Content Include="template.html" />
     <Content Include="XMLConfigTemp.xml">
       <SubType>Designer</SubType>
