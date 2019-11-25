@@ -90,6 +90,7 @@ namespace Parser
                 Stream SreamReadOut = openFileDialog1.OpenFile(); //читаем поток шаблона
                 StreamReader StReadOut = new StreamReader(SreamReadOut);
                 strLineOut = StReadOut.ReadToEnd();
+                
                 if (strLineOut.Length > 0)
                 {
                     MessageBox.Show("Шаблон выходного файла загружен");
@@ -113,6 +114,7 @@ namespace Parser
              var rulPath = new FileInfo("init.html").FullName;
            webBrowser1.Navigate(@rulPath);
         }
+        
 
         // выполнение преобразования в html
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
